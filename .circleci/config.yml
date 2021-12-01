@@ -17,7 +17,7 @@ jobs:
          -c "CREATE TABLE test (name char(25));"
       - run: | 
          -d $TEST_DATABASE_URL \
-         -c "insert into test (name) VALUES ('ZOHAIB')"
+         -c "INSERT into test (name) VALUES ('ZOHAIB')"
       - run: |
          -d $TEST_DATABASE_URL \
          -c "SELECT * from test"
