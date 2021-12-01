@@ -1,25 +1,22 @@
-version: 2.1
-
+version: 2
 jobs:
   build:
-    working_directory: ~/circleci-python
-    docker:
-      - image: "circleci/python:3.6.4"
+    docker: 
+      - image: circleci/python:3.6.2-stretch-browsers
+        environment:
+          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
+      - image: circleci/postgres:9.6.5-alpine-ram
     steps:
       - checkout
-      - run: python3 main.py
-  test:
-    working_directory: ~/circleci-python
-    docker:
-      - image: "circleci/python:3.6.4"
-    steps:
-      - checkout
-      - run: python3 main-test.py
-
-workflows:
-  build_and_test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - run: sudo apt install postgresql-client-9.6
+      - run: whoami
+      - run: | 
+         psql \
+         -d $TEST_DATABASE_URL \
+         -c "CREATE TABLE test (name char(25));"
+      - run: | 
+         -d $TEST_DATABASE_URL \
+         -c "insert into test (name) VALUES ('ZOHAIB')"
+      - run: |
+         -d $TEST_DATABASE_URL \
+         -c "SELECT * from test"
