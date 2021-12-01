@@ -15,7 +15,7 @@ jobs:
          -d $TEST_DATABASE_URL \
          -c "CREATE TABLE test (name char(25));"
       - run: | 
-          psql \
+         psql \
          -d $TEST_DATABASE_URL \
          -c "INSERT into test (name) VALUES ('ZOHAIB')"
       - run: |
